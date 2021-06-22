@@ -1,0 +1,19 @@
+name: help-command
+on:
+  repository_dispatch:
+    types: [help-command]
+jobs:
+  example:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          token: ${{ secrets.PAT }}
+          repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+          comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+          body: |
+            > Command | Description
+            > --- | ---
+            > /create-issue title="Issue Title" label=label1,label2.. body="Issue body" | Creates an issue with the title being the arguments
+            > /feedback [\<args\> ...] | collects feedback from user
