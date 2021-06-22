@@ -1,0 +1,17 @@
+
+name: create-issue-command
+on:
+  repository_dispatch:
+    types: [create-issue-command]
+jobs:
+  example:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Issue
+        uses: nashmaniac/create-issue-action@v1.1
+        with:
+          title: ${{ github.event.client_payload.slash_command.args.named.title }}
+          token: ${{secrets.GITHUB_TOKEN}}
+          assignees: ${{github.actor}}
+          labels: ${{ github.event.client_payload.slash_command.args.named.labels }}
+          body: ${{ github.event.client_payload.slash_command.args.named.body }}
