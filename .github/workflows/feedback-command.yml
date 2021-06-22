@@ -1,0 +1,16 @@
+name: feedback-command
+on:
+  repository_dispatch:
+    types: [feedback-command]
+jobs:
+  example:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Collect Feedback
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          token: ${{ secrets.ACTIONS_BOT_TOKEN }}
+          repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+          comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+          body: |
+            feedback was: ${{ github.event.client_payload.slash_command.args.all }}
